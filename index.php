@@ -12,10 +12,14 @@
 // Required files.
 require_once('../../config.php');
 
-// Set up the page.
+// Check permissions.
 $context = context_system::instance();
+require_login();
+require_capability('report/sample:view', $context);
+
+// Set up the page.
 $url = new moodle_url('/report/sample/index.php');
-$title = 'Sample Report';
+$title = get_string('title', 'report_sample');
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_title($title);
