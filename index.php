@@ -40,6 +40,7 @@ if ($data = $sampleform->get_data()) {
               AND p.created < $dateto";
     if ($records = $DB->get_records_sql($sql)) {
         $table = new flexible_table('report-sample-display');
+        $table->define_baseurl($url);
         $table->define_columns(array('fullname', 'date', 'post'));
         $tableheaders = array(
                 get_string('fullname'),
@@ -49,13 +50,7 @@ if ($data = $sampleform->get_data()) {
         $table->define_headers($tableheaders);
         $table->set_attribute('cellspacing', '0');
         $table->set_attribute('align', 'center');
-        $table->column_style_all('text-align', 'center');
-        $table->column_style('fullname', 'text-align', 'left');
-
-        foreach ($records as $rec) {
-            $link = "a href=\"$CFG->wwwroot/mod/forum/discuss.php?d=$rec->discussion#p$rec->id\">$rec->subject</a>";
-            $table->add_data(array(fullname($rec), userdate($rec->created), $link));
-        }
+        $table->column_style_all('text-align', 'left');
     }
 }
 
@@ -69,6 +64,11 @@ $sampleform->display();
 
 if (!empty($table)) {
     $table->setup();
+    foreach ($records as $rec) {
+        $link = "<a href=\"$CFG->wwwroot/mod/forum/discuss.php?d=$rec->discussion#p$rec->id\">$rec->subject</a>";
+        $user = "<a href=\"$CFG->wwwroot/user/profile.php?id=$rec->userid\">".fullname($rec).'</a>';
+        $table->add_data(array($user, userdate($rec->created), $link));
+    }
     $table->print_html();
 }
 
