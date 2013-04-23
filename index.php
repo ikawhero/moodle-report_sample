@@ -11,6 +11,7 @@
 
 // Required files.
 require_once('../../config.php');
+require_once('./index_form.php');
 
 // Check permissions.
 $context = context_system::instance();
@@ -26,10 +27,32 @@ $PAGE->set_title($title);
 $PAGE->set_pagelayout('report');
 $PAGE->set_heading($title);
 
+$sampleform = new sampleform();
+
+if ($data = $sampleform->get_data()) {
+    $datefrom = $data->startdate;
+    $dateto = $data->enddate + 86400;
+    $sql = "SELECT p.id, p.discussion, p.subject, p.userid, u.firstname, u.lastname
+            FROM {forum_posts} p
+            JOIN {user} u ON u.id=p.userid
+            WHERE p.created > $datefrom
+              AND p.created < $dateto";
+    if ($records = $DB->get_records_sql($sql)) {
+        // Do nothing for now.
+    }
+}
+
 // Output to browser.
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
+echo $OUTPUT->heading(get_string('searchforusers', 'report_sample'));
 
-echo "Hello World";
+echo $OUTPUT->box(get_string('searchdescription', 'report_sample'));
+
+$sampleform->display();
+
+if (!empty($records)) {
+    print_object($records);
+}
 
 echo $OUTPUT->footer();
+
