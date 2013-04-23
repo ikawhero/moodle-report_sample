@@ -13,7 +13,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$ADMIN->add('reports', new admin_externalpage('reportsample', get_string('pluginname', 'report_sample'), "$CFG->wwwroot/report/sample/index.php",'report/sample:view'));
+$ADMIN->add('reports', new admin_externalpage('reportsample', get_string('pluginname', 'report_sample'),
+                                              "$CFG->wwwroot/report/sample/index.php",'report/sample:view'));
 
 // No report settings.
 $settings = null;
