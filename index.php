@@ -47,18 +47,10 @@ if ($data = $sampleform->get_data()) {
                 get_string('forumpost', 'report_sample')
                 );
         $table->define_headers($tableheaders);
-//        $table->define_baseurl($url);
-//        $table->sortable(true);
-//        $table->collapsible(false);
-//        $table->initialbars(false);
-//        $table->column_suppress('picture');
-//        $table->column_suppress('fullname');
         $table->set_attribute('cellspacing', '0');
         $table->set_attribute('align', 'center');
         $table->column_style_all('text-align', 'center');
         $table->column_style('fullname', 'text-align', 'left');
-//        $table->column_style_all('vertical-align', 'middle');
-//        $table->no_sorting('picture');
 
         foreach ($records as $rec) {
             $link = "a href=\"$CFG->wwwroot/mod/forum/discuss.php?d=$rec->discussion#p$rec->id\">$rec->subject</a>";
@@ -76,6 +68,7 @@ echo $OUTPUT->box(get_string('searchdescription', 'report_sample'));
 $sampleform->display();
 
 if (!empty($table)) {
+    $table->setup();
     $table->print_html();
 }
 
