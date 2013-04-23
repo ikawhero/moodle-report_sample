@@ -12,6 +12,7 @@
 // Required files.
 require_once('../../config.php');
 require_once('./index_form.php');
+require_once($CFG->libdir.'/tablelib.php');
 
 // Check permissions.
 $context = context_system::instance();
@@ -32,7 +33,7 @@ $sampleform = new sampleform();
 if ($data = $sampleform->get_data()) {
     $datefrom = $data->startdate;
     $dateto = $data->enddate + 86400;
-    $sql = "SELECT p.id, p.discussion, p.subject, p.userid, u.firstname, u.lastname
+    $sql = "SELECT p.id, p.created, p.discussion, p.subject, p.userid, u.firstname, u.lastname
             FROM {forum_posts} p
             JOIN {user} u ON u.id=p.userid
             WHERE p.created > $datefrom
@@ -59,6 +60,10 @@ if ($data = $sampleform->get_data()) {
 //        $table->column_style_all('vertical-align', 'middle');
 //        $table->no_sorting('picture');
 
+        foreach ($records as $rec) {
+            $link = "a href=\"$CFG->wwwroot/mod/forum/discuss.php?d=$rec->discussion#p$rec->id\">$rec->subject</a>";
+            $table->add_data(array(fullname($rec), userdate($rec->created), $link));
+        }
     }
 }
 
@@ -70,8 +75,8 @@ echo $OUTPUT->box(get_string('searchdescription', 'report_sample'));
 
 $sampleform->display();
 
-if (!empty($records)) {
-    print_object($records);
+if (!empty($table)) {
+    $table->print_html();
 }
 
 echo $OUTPUT->footer();
