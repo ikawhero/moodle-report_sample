@@ -16,6 +16,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['datefrom'] = 'Date from';
 $string['dateto'] = 'Date to';
 $string['error_enddate'] = 'End date is before start date';
+$string['forumpost'] = 'Forum post';
 $string['pluginname'] = 'Sample Report';
 $string['search'] = 'Search';
 $string['searchdescription'] = 'Search for users who have made a forum post within the given dates and return their name, date, and a link to the forum post'; 

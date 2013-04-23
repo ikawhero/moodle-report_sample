@@ -38,7 +38,27 @@ if ($data = $sampleform->get_data()) {
             WHERE p.created > $datefrom
               AND p.created < $dateto";
     if ($records = $DB->get_records_sql($sql)) {
-        // Do nothing for now.
+        $table = new flexible_table('report-sample-display');
+        $table->define_columns(array('fullname', 'date', 'post'));
+        $tableheaders = array(
+                get_string('fullname'),
+                get_string('date'),
+                get_string('forumpost', 'report_sample')
+                );
+        $table->define_headers($tableheaders);
+//        $table->define_baseurl($url);
+//        $table->sortable(true);
+//        $table->collapsible(false);
+//        $table->initialbars(false);
+//        $table->column_suppress('picture');
+//        $table->column_suppress('fullname');
+        $table->set_attribute('cellspacing', '0');
+        $table->set_attribute('align', 'center');
+        $table->column_style_all('text-align', 'center');
+        $table->column_style('fullname', 'text-align', 'left');
+//        $table->column_style_all('vertical-align', 'middle');
+//        $table->no_sorting('picture');
+
     }
 }
 
